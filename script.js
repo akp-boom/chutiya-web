@@ -1,34 +1,29 @@
-const synth = window.speechSynthesis;
-const voiceSelect = document.getElementById('voiceSelect');
-const speakButton = document.getElementById('speakBtn');
-let voices = [];
+window.addEventListener('load', function() {
+    const synth = window.speechSynthesis;
 
-// Populate the voice options
-function populateVoiceList() {
-    voices = synth.getVoices();
-    voiceSelect.innerHTML = ''; // Clear existing options
+    // Function to get a Hindi-compatible voice
+    function getHindiVoice() {
+        const voices = synth.getVoices();
+        return voices.find(voice => voice.lang.includes('hi')) || voices[0]; // Fallback to the first voice if no Hindi voice is found
+    }
 
-    voices.forEach((voice, index) => {
-        const option = document.createElement('option');
-        option.textContent = `${voice.name} (${voice.lang})`;
-        option.value = index;
-        voiceSelect.appendChild(option);
-    });
-}
+    // Function to speak the text
+    function speakHindi() {
+        const message = new SpeechSynthesisUtterance('चूतिया है क्या');
+        const hindiVoice = getHindiVoice();
 
-// Speak the message
-function speakMessage() {
-    const message = new SpeechSynthesisUtterance('CHUTIYA HA KYA');
-    const selectedVoiceIndex = voiceSelect.value;
-    message.voice = voices[selectedVoiceIndex];
-    synth.speak(message);
-}
+        if (hindiVoice) {
+            message.voice = hindiVoice;
+        }
 
-// Populate voice list when voices are loaded
-populateVoiceList();
-if (speechSynthesis.onvoiceschanged !== undefined) {
-    speechSynthesis.onvoiceschanged = populateVoiceList;
-}
+        message.lang = 'hi-IN'; // Set language to Hindi
+        synth.speak(message);
+    }
 
-// Add event listeners
-speakButton.addEventListener('click', speakMessage);
+    // Wait for voices to load, then speak
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+        speechSynthesis.onvoiceschanged = speakHindi;
+    } else {
+        speakHindi();
+    }
+});
