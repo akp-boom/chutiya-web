@@ -9,7 +9,7 @@ window.addEventListener('load', function() {
 
     // Function to speak the text
     function speakHindi() {
-        const message = new SpeechSynthesisUtterance('चूतिया है क्याबेहेनचॉड ');
+        const message = new SpeechSynthesisUtterance('चूतिया है क्याबेहेनचॉड');
         const hindiVoice = getHindiVoice();
 
         if (hindiVoice) {
