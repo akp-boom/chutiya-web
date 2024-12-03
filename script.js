@@ -1,6 +1,6 @@
 window.addEventListener('load', function () {
     // Create an Audio object with the pre-recorded sound
-    const audio = new Audio('chutiya-ha-kya.mp3');
+    const audio = new Audio('zchutiya-ha-kya.mp3');
 
     // Attempt to play the audio automatically
     audio.play().catch(error => {
